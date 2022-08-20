@@ -1,0 +1,65 @@
+import nltk
+
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+def colored2(r, g, b, text):
+    return "\033[38;2;{};{};{}m{} \033[38;2;255;255;255m".format(r, g, b, text)
+
+def sentiment_scores(sentence):
+    sid_obj = SentimentIntensityAnalyzer()
+    from playsound import playsound
+
+    sentiment_dict = sid_obj.polarity_scores(sentence)  #to find out sentiment number(-1 to 1)
+    if sentiment_dict['compound'] >= -0.5:
+        print(sentiment_dict['compound'])
+        print(colored2(250,0,0,sentence))
+
+        playsound("C:\\Users\\User\PycharmProjects\miniprojectafterreport\Dark Souls Parry (With sound effect).wav")
+
+
+    elif sentiment_dict['compound'] >=  -0.4:
+        print(sentiment_dict['compound'])
+        print(colored2(250,10,10,sentence))
+
+        playsound("C:\\Users\\User\PycharmProjects\miniprojectafterreport\Dark Souls Parry (With sound effect).wav")
+
+
+    elif sentiment_dict['compound'] >= -0.3:
+        print(sentiment_dict['compound'])
+        print(colored2(255,100,30,sentence))
+        playsound("C:\\Users\\User\PycharmProjects\miniprojectafterreport\Dark Souls Parry (With sound effect).wav")
+
+    elif sentiment_dict['compound'] >= -0.05:
+        print(sentiment_dict['compound'])
+        print(colored2(240, 190, 60, sentence))
+
+        playsound("C:\\Users\\User\PycharmProjects\miniprojectafterreport\Dark Souls Parry (With sound effect).wav")
+
+    elif sentiment_dict['compound'] >= 0:
+        print(sentiment_dict['compound'])
+        print(colored2(110, 190, 80, sentence))
+
+        playsound("C:\\Users\\User\PycharmProjects\miniprojectafterreport\Dark Souls Parry (With sound effect).wav")
+    elif sentiment_dict['compound'] >= 0.04:
+        print(sentiment_dict['compound'])
+        print(colored2(0,190,180,sentence))
+
+        playsound("C:\\Users\\User\PycharmProjects\miniprojectafterreport\Dark Souls Parry (With sound effect).wav")
+    elif sentiment_dict['compound'] >= 0.05:
+        print(sentiment_dict['compound'])
+        print(colored2(0, 190, 250, sentence))
+
+        playsound("C:\\Users\\User\PycharmProjects\miniprojectafterreport\Dark Souls Parry (With sound effect).wav")
+
+
+
+    else:
+        print(sentiment_dict['compound'])
+        print(colored2(0,250,250,sentence))
+
+        playsound("C:\\Users\\User\PycharmProjects\miniprojectafterreport\Dark Souls Parry (With sound effect).wav")
+#sentiment_scores("sentence is good for you")
+from playsound import playsound
+
+
+
+
