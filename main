@@ -1,61 +1,49 @@
 import os
-from typing import Union, Any, List, Generator
-import nltk
 from wfw import sentiment_scores
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import openai
-from random import choice
-import time
 
 from openai.openai_object import OpenAIObject
-openai.api_key = 'abc'
+openai.api_key = 'YOUR API KEY HERE'
 OPENAI_KEY = os.environ.get("openai.api_key")
 
-cwaize=int(input("Choose your character anon: 1) Hufflepuff,2)Slytherin,3) Gryffindor"))
+cwaize=int(input("Choose your character anon: 1) Hufflepuff,2)Slytherin,3) Gryffindor"))        # predefined prompts for all the three main houses :) .
 if cwaize==3:
     prompt_text = "This is the first day in Hogwarts. Your scar still burns. Reminds you of the pain you suffered at the hands of the evil lord Voldemort. But that's past you now as you face the sorting hat in the main hall. Gryyfindor! the sorting hat shouts as soon he sees you."
 elif cwaize==2:
     prompt_text="This is the first day in Hogwarts. Your scar still burns. Reminds you of the pain you suffered at the hands of the evil lord Voldemort. But that's past you now as you face the sorting hat in the main hall. Slytherin! the sorting hat shouts as soon he sees you."
 elif cwaize==1:
     prompt_text="This is the first day in Hogwarts. Your scar still burns. Reminds you of the pain you suffered at the hands of the evil lord Voldemort. But that's past you now as you face the sorting hat in the main hall. Hufflepuff! the sorting hat shouts as soon he sees you."
-from playsound import playsound
-
-import re
 
 def colored(r, g, b, text):
     return "\033[38;2;{};{};{}m{} \033[38;2;255;255;255m".format(r, g, b, text)
-
-    #print(colored(255, 0, 0, 'Hello, World'))
-
+                           #Coloured text output
 
 import requests                                  
-def imgto(texxt):
+def imgto(texxt):          #this entire function can be omitted as it takes too long at the end of the story and is of no real purpose except as a placeholder
     r = requests.post(
     "https://api.deepai.org/api/text2img",
     data={
         'text': texxt,
-    },
-    headers={'api-key': 'bf773026-51e9-4cd5-aa54-427cb2cadc70'}
+    },                      #this function is only a placeholder function until dalle-2 access is granted. 
+    headers={'api-key': 'API KEY FROM DEEEPAI'}
 )
     print(r.json())
+    
 
 def qust(x):
   response = openai.Completion.create(
-     engine="davinci",
-       prompt=prompt_text,
+     engine="davinci",       #First text response to the prompts by OpenAI
+       prompt=prompt_text,   #Tinker with these parameters for preferred optimal output
         temperature=0.4,
          max_tokens=64,
    frequency_penalty=0.4,
    presence_penalty=0.4,
       )
   print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
-  sentiment_scores(response['choices'][0]['text'])
+  sentiment_scores(response['choices'][0]['text'])                            #This function sentiment_scores is imported from wfw file
   print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
-  #playsound("C:\\Users\\User\PycharmProjects\miniprojectafterreport\Dark Souls Parry (With sound effect).wav")
-
-
-
-  for x in range(3):
+  
+  for x in range(3):        #Loop for 4 times i.e story choices genwerated 4 times until end of story
 
     response2 = openai.Completion.create(
       engine="davinci",
@@ -64,7 +52,7 @@ def qust(x):
       max_tokens=64,
 frequency_penalty=0.7,
   presence_penalty=0.7,
-      # use this for last line instead of this method in main.
+      
     )
     response3 = openai.Completion.create(
       engine="davinci",
@@ -76,8 +64,9 @@ frequency_penalty=0.7,
     )
 
     chime=int(input( "Choices!!!:---->" +"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"+ colored(255,255,0,response2['choices'][0]['text'])+"\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + "\nOR WOULD YOU RATHER GO DOWN THIS PATH? \n-->"+"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n" +colored(0,255,127,response3['choices'][0]['text'])+"\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="))
-
-    #print("1                           OR                             2")
+                                        
+                                        #Instead of colored function, one can choose to sentiment_scores(response2['choices'][0]['text']) for text analysis and appropriate sound effects 
+                                        # enter either 1 or 2 to choose story narrative direction                     
     if chime==1:
       response = openai.Completion.create(
         engine="text-davinci-002",
@@ -88,14 +77,11 @@ frequency_penalty=1,
   presence_penalty=1,
       )
 
-
-    #  print("         1        /\n       /\n      /\n     /\n    /\n   /\n  /\n /\n|\n↓")
       print(colored(255,0,0,response2['choices'][0]['text']+response['choices'][0]['text']))
       with open('bluuudborne8.txt','a') as f:
           f.writelines(response['choices'][0]['text'])
 
     elif chime==2:
-
       response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=response['choices'][0]['text']+ response3['choices'][0]['text'],
@@ -104,15 +90,13 @@ frequency_penalty=1,
 frequency_penalty=1,
   presence_penalty=1,
       )
-
-     # print("       2        \ \n         \ \n          \ \n           \ \n            \ \n             \ \n              |\n              ↓")
       print(colored(255,0,0,response3['choices'][0]['text']+response['choices'][0]['text']))
       with open('bluuudborne8.txt','a') as f:
           f.writelines(response['choices'][0]['text'])
-
+          
 qust(0)
 
-def end():
+def end():                                   #end sequence function
     filez=open("bluuudborne8.txt","r")
     data=filez.read()
     responseemotion= openai.Completion.create(
@@ -157,7 +141,6 @@ if noi==1:
     qust(0)
 else:
     print("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-")
-
 
 #prompt33 = "Alas the story has to conclude. You were either successful in eradicating the beastly scurge or died trying"
 
